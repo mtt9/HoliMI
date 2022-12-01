@@ -1,6 +1,6 @@
-### MyFramework: Python module for model identification
+### Framework: Python module for holistic model identification
 """
-Created on Thursday  14 July 2022
+Created from Thursday 14 July 2022 on
 
 @author: Theresa Tillmann at UCL
 """
@@ -36,10 +36,10 @@ from FunctionStorage import MBDoE_PE, tval_reform_PE
 from FunctionStorage import end_MBDoE, pie_chart, plot_y, plot_D_map_prior, plot_PE, plot_cov, d_map_prior, d_map_FIM, plot_D_map_FIM, plot_paraCov, plot_paraCorr, plot_T
 from FunctionStorage import postprocessing_results, store_results
 
-# ## function 'onlinembdoe'
+# ## function 'HoliMI'
 
 
-def onlinembdoe(model_set_0, x0, t, y_meas, DS, var_exp, budget, DC, DC_PE, pe_guess, PE_bounds=(0, np.inf), prelim_exp=None, lambda_chi=np.inf, true_model=None, prob_calc=1, prob_rej_th=0.03, prob_th=0.999, tval_th=0.01, precis_th=0.2, newDC=None, lambda_f=0.1):
+def HoliMI(model_set_0, x0, t, y_meas, DS, var_exp, budget, DC, DC_PE, pe_guess, PE_bounds=(0, np.inf), prelim_exp=None, lambda_chi=np.inf, true_model=None, prob_calc=1, prob_rej_th=0.03, prob_th=0.999, tval_th=0.01, precis_th=0.2, newDC=None, lambda_f=0.1):
     '''
     This function should return the model which approximates experimental data best.
 
@@ -155,7 +155,7 @@ def onlinembdoe(model_set_0, x0, t, y_meas, DS, var_exp, budget, DC, DC_PE, pe_g
                 return 'E', 0, 8, locals()
             print("Model discrimination done. Identified model: ", model_set_0[final_model_num].__name__)
             if final_model_num == true_m_num:
-                return onlineMBDoE_PE(locals(), DC_PE, model_set_0[final_model_num], theta_t, [[theta[-1][final_model_num]]],
+                return HoliMI_PE(locals(), DC_PE, model_set_0[final_model_num], theta_t, [[theta[-1][final_model_num]]],
                                       [param_bounds[final_model_num]], [[dof[-1][final_model_num]]],
                                       [[para_cov[-1][final_model_num]]], [[conf_int[-1][final_model_num]]],
                                       [[t_val[-1][final_model_num]]], [[PE_table[-1][final_model_num]]], u, y_exp,
@@ -179,7 +179,7 @@ def onlinembdoe(model_set_0, x0, t, y_meas, DS, var_exp, budget, DC, DC_PE, pe_g
                 return 'E', 0, 8, locals()
             print("Model discrimination done. Identified model: ", model_set_0[final_model_num].__name__)
             if final_model_num == true_m_num:
-                return onlineMBDoE_PE(locals(), DC_PE, model_set_0[final_model_num], theta_t, [[theta[-1][final_model_num]]],
+                return HoliMI_PE(locals(), DC_PE, model_set_0[final_model_num], theta_t, [[theta[-1][final_model_num]]],
                                       [param_bounds[final_model_num]], [[dof[-1][final_model_num]]],
                                       [[para_cov[-1][final_model_num]]], [[conf_int[-1][final_model_num]]],
                                       [[t_val[-1][final_model_num]]], [[PE_table[-1][final_model_num]]], u, y_exp,
@@ -306,7 +306,7 @@ def onlinembdoe(model_set_0, x0, t, y_meas, DS, var_exp, budget, DC, DC_PE, pe_g
                 return 'E', it, 8, locals()
             print("Model discrimination done. Identified model: ", model_set_0[final_model_num].__name__)
             if final_model_num == true_m_num:
-                return onlineMBDoE_PE(locals(), DC_PE, model_set_0[final_model_num], theta_t, [[theta[-1][final_model_num]]], [param_bounds[final_model_num]], [[dof[-1][final_model_num]]], [[para_cov[-1][final_model_num]]], [[conf_int[-1][final_model_num]]], [[t_val[-1][final_model_num]]], [[PE_table[-1][final_model_num]]], u, y_exp, var_exp, [[priorFIM[-1][final_model_num]]], it, budget, DS, x0, y_meas, t, precis_th, tval_th)
+                return HoliMI_PE(locals(), DC_PE, model_set_0[final_model_num], theta_t, [[theta[-1][final_model_num]]], [param_bounds[final_model_num]], [[dof[-1][final_model_num]]], [[para_cov[-1][final_model_num]]], [[conf_int[-1][final_model_num]]], [[t_val[-1][final_model_num]]], [[PE_table[-1][final_model_num]]], u, y_exp, var_exp, [[priorFIM[-1][final_model_num]]], it, budget, DS, x0, y_meas, t, precis_th, tval_th)
             return 'F', it, model_set_0[final_model_num], theta[-1][final_model_num], locals()
 
         # ## check for t-values and reformulate models with t-values below tval_th
@@ -326,7 +326,7 @@ def onlinembdoe(model_set_0, x0, t, y_meas, DS, var_exp, budget, DC, DC_PE, pe_g
                 return 'E', it, 8, locals()
             print("Model discrimination done. Identified model: ", model_set_0[final_model_num].__name__)
             if final_model_num == true_m_num:
-                return onlineMBDoE_PE(locals(), DC_PE, model_set_0[final_model_num], theta_t, [[theta[-1][final_model_num]]],
+                return HoliMI_PE(locals(), DC_PE, model_set_0[final_model_num], theta_t, [[theta[-1][final_model_num]]],
                                       [param_bounds[final_model_num]], [[dof[-1][final_model_num]]],
                                       [[para_cov[-1][final_model_num]]], [[conf_int[-1][final_model_num]]],
                                       [[t_val[-1][final_model_num]]], [[PE_table[-1][final_model_num]]], u, y_exp,
@@ -375,7 +375,7 @@ def onlinembdoe(model_set_0, x0, t, y_meas, DS, var_exp, budget, DC, DC_PE, pe_g
     return 'E', it, 7, locals()
 
 
-def onlineMBDoE_PE(local, DC_PE, model, theta_t, theta_m, param_bounds_m, dof_m, para_cov_m, conf_int_m, t_val_m, PE_table_m, u, y_exp, var_exp, priorFIM_m, itMD, budget, DS, x0, y_meas, t, precis_th, tval_th):
+def HoliMI_PE(local, DC_PE, model, theta_t, theta_m, param_bounds_m, dof_m, para_cov_m, conf_int_m, t_val_m, PE_table_m, u, y_exp, var_exp, priorFIM_m, itMD, budget, DS, x0, y_meas, t, precis_th, tval_th):
     it = int(itMD)
 
     PE_table_m = []

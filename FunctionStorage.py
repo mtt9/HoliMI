@@ -315,13 +315,13 @@ def av_FIM(phi, t, model_set, theta, prior, var_exp, x0, y_meas):  # y dimension
 def MBDoE_PE(DC_PE, DS, phi_ini, t, x0, y_meas, model, theta_m, var_exp, priorFIM_m):
     if DC_PE == 'D':
         pe_sol1 = minimize(mbdoepe_D, phi_ini, method='Nelder-Mead', bounds=DS, args=(t, x0, y_meas, model, theta_m, var_exp, priorFIM_m))
-        pe_sol = minimize(mbdoepe_D, pe_sol1.x, method='Nelder-Mead', bounds=DS, args=(t, x0, y_meas, model, theta_m, var_exp, priorFIM_m))
+        pe_sol = minimize(mbdoepe_D, pe_sol1.x, method='SLSQP', bounds=DS, args=(t, x0, y_meas, model, theta_m, var_exp, priorFIM_m))
     elif DC_PE == 'E':
         pe_sol1 = minimize(mbdoepe_E, phi_ini, method='Nelder-Mead', bounds=DS, args=(t, x0, y_meas, model, theta_m, var_exp, priorFIM_m))
-        pe_sol = minimize(mbdoepe_E, pe_sol1.x, method='Nelder-Mead', bounds=DS, args=(t, x0, y_meas, model, theta_m, var_exp, priorFIM_m))
+        pe_sol = minimize(mbdoepe_E, pe_sol1.x, method='SLSQP', bounds=DS, args=(t, x0, y_meas, model, theta_m, var_exp, priorFIM_m))
     elif DC_PE == 'modE':
         pe_sol1 = minimize(mbdoepe_modE, phi_ini, method='Nelder-Mead', bounds=DS, args=(t, x0, y_meas, model, theta_m, var_exp, priorFIM_m))
-        pe_sol = minimize(mbdoepe_modE, pe_sol1.x, method='Nelder-Mead', bounds=DS, args=(t, x0, y_meas, model, theta_m, var_exp, priorFIM_m))
+        pe_sol = minimize(mbdoepe_modE, pe_sol1.x, method='SLSQP', bounds=DS, args=(t, x0, y_meas, model, theta_m, var_exp, priorFIM_m))
 
     return pe_sol.x
 
